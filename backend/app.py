@@ -7,7 +7,7 @@ import os
 import re
 from PyPDF2 import PdfReader
 import pandas as pd
-from utils import time_to_seconds
+from backend.utils import time_to_seconds
 import ast
 import sqlite3
 from flask import render_template
@@ -19,7 +19,7 @@ CORS(app)
 def home():
     return render_template('index.html')
 
-DATABASE_URL = os.environ.get("DATABASE_URL")  # Render создаст переменную
+DATABASE_URL = os.environ.get("DATABASE_URL") or "sqlite:///local.db"
 app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
