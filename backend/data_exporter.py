@@ -1,4 +1,5 @@
 import pandas as pd
+from pathlib import Path
 from app import db, Swimmers, app  # Importing the app and db instance from app.py
 
 def seconds_to_time(result_in_seconds):
@@ -39,6 +40,8 @@ def export_to_excel():
 
         df = pd.DataFrame(swimmers_data)
         df['Пол'] = df['Пол'].replace('F', 'Ж')
+        # Normalize event name variations ("50M" vs "50m") to match mapping keys
+        df['Дистанция'] = df['Дистанция'].astype(str).str.replace('M ', 'm ', regex=False)
         df['Дистанция'] = df['Дистанция'].replace('50m Freestyle', '50м кроль')
         df['Дистанция'] = df['Дистанция'].replace('100m Freestyle', '100м кроль')
         df['Дистанция'] = df['Дистанция'].replace('200m Freestyle', '200м кроль')
@@ -59,10 +62,13 @@ def export_to_excel():
         df['Время'] = df['Время'].apply(seconds_to_time)
         df['Дата проведения соревнований'] = pd.to_datetime(df['Дата проведения соревнований'], errors='coerce')
         df['Дата проведения соревнований'] = df['Дата проведения соревнований'].dt.strftime('%d/%m/%Y')
-        df['FINA Points'] = df['FINA Points'].apply(int)
+        df['FINA Points'] = pd.to_numeric(df['FINA Points'], errors='coerce').fillna(0).astype(int)
 
-        excel_file = 'Swimming Ranking 2025/Swimmers_Data.xlsx'
-        df.to_excel(excel_file, index=False)
+        project_root = Path(__file__).resolve().parents[1]
+        output_dir = project_root / 'output' / 'Swimming Ranking 2025'
+        output_dir.mkdir(parents=True, exist_ok=True)
+        excel_file = output_dir / 'Swimmers_Data.xlsx'
+        df.to_excel(str(excel_file), index=False)
 
         print(f"Database successfully exported to {excel_file}")
 
