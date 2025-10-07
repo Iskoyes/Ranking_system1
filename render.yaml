@@ -10,8 +10,6 @@ services:
     buildCommand: pip install -r requirements.txt
     startCommand: gunicorn backend.app:app --bind 0.0.0.0:$PORT --workers 2
     healthCheckPath: /healthz
-    dependsOn:
-      - swimming-results-db
     envVars:
       - key: SECRET_KEY
         generateValue: true
