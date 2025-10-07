@@ -6,7 +6,7 @@ from datetime import datetime
 import os, re, ast
 from pathlib import Path
 import pandas as pd
-from utils import time_to_seconds
+from .utils import time_to_seconds
 from functools import wraps
 import json
 
@@ -295,9 +295,9 @@ def get_base_time(event_name: str, gender: str, pool_length: int):
     return table.get(event_name) or table.get(event_name.replace("M ", " "))
 
 def assign_rudolph_points_to_swimmers():
-    csv_path = DATA_DIR / f"rudolph_points_{year}.csv"
+    csv_path = DATA_DIR / f"rudolph_points_{YEAR}.csv"
     if not csv_path.exists():
-        app.logger.warning(f"rudolph_points_{year}.csv not found; skipping")
+        app.logger.warning(f"rudolph_points_{YEAR}.csv not found; skipping")
         return
     rudolph_points_df = pd.read_csv(csv_path)
     for swimmer in Swimmers.query.all():
