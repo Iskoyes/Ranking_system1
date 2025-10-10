@@ -104,8 +104,8 @@ def add_data():
         event_name = normalize_event_name(data["event"]) or data["event"]
         result_seconds = time_to_seconds(data["result"])  # supports both seconds and mm:ss,ms
         pool_len = int(data["pool_length"])
-        place_taken = int(data["place_t"])
-        name_of_competition = (data["name_of_competition"])
+        place_taken = int(data["place_taken"])
+        name_of_competition = str(data["name_of_competition"])
         event_date = datetime.strptime(data["date_of_competition"], "%Y-%m-%d").date()
 
         # Compute points
