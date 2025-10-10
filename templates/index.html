@@ -307,12 +307,14 @@
           </select>
         </td>
         <td><input type="number" step="0.01" value="${h(row.result)}" style="width:90px" /></td>
+        <td><input value="${h(row.name_of_competition)}" style="width:140px" /></td>
         <td><input type="date" value="${h(row.date_of_competition)}" style="width:130px" /></td>
         <td><select style="width:70px"><option value="25" ${row.pool_length==25?'selected':''}>25</option><option value="50" ${row.pool_length==50?'selected':''}>50</option></select></td>
+        <td><input type="number" value="${h(row.place_taken)}" style="width:70px" /></td>
         <td>${h(row.fina_points)}</td>
         <td>${h(row.rudolph_points)}</td>
-        <td><input value="${h(row.name_of_competition)}" style="width:140px" /></td>
-        <td><input type="number" value="${h(row.place_taken)}" style="width:70px" /></td>
+
+
         <td>
           <button class="btn btn-outline" data-action="save">Сохранить</button>
           <button class="btn btn-outline" data-action="delete">Удалить</button>
@@ -328,9 +330,9 @@
           gender: inputs[2].value,
           event: inputs[3].value,
           result: inputs[4].value,
+          name_of_competition: inputs[7].value, 
           date_of_competition: inputs[5].value,
-          pool_length: Number(inputs[6].value),
-          name_of_competition: inputs[7].value,  
+          pool_length: Number(inputs[6].value), 
           place_taken: inputs[8].value  
         };
         try {
