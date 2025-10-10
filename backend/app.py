@@ -50,6 +50,7 @@ class Swimmers(db.Model):
     result = db.Column(db.Float, nullable=False)  # stored in seconds
     date_of_competition = db.Column(db.Date, nullable=False)
     pool_length = db.Column(db.Integer, nullable=False)
+    place_taken = db.Column(db.Integer, nullable=False)
     fina_points = db.Column(db.Integer, nullable=True)
     rudolph_points = db.Column(db.Integer, nullable=True)
     __table_args__ = (
@@ -102,6 +103,7 @@ def add_data():
         event_name = normalize_event_name(data["event"]) or data["event"]
         result_seconds = time_to_seconds(data["result"])  # supports both seconds and mm:ss,ms
         pool_len = int(data["pool_length"])
+        place_taken = int(data["place_t"])
         event_date = datetime.strptime(data["date_of_competition"], "%Y-%m-%d").date()
 
         # Compute points
@@ -117,8 +119,9 @@ def add_data():
             result=result_seconds,
             date_of_competition=event_date,
             pool_length=pool_len,
+            place_taken=place_taken,
             fina_points=fina_pts,
-            rudolph_points=rudolph_pts,
+            rudolph_points=rudolph_pts
         )
         db.session.add(new_entry)
         db.session.commit()
