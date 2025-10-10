@@ -124,15 +124,15 @@
           <div class="field">
             <label for="name_of_competition">Название соревнований</label>
             <select id="name_of_competition" name="name_of_competition" required>
-              <option value="ЧРК по плаванию Костанай">ЧРК Костанай</option>
+              <option value="ЧРК по плаванию Костанай">ЧРК Қостанай</option>
               <option value="РТ Жемчужина бурабая" selected>РТ Жемчужина бурабая</option>
               <option value="РТ по плаванию Веселый дельфин" selected>РТ Веселый дельфин</option>
               <option value="РТ по плаванию SwimFeelsCup"> РТ SwimFeelsCup</option>
               <option value="ЧРК Астана" selected>ЧРК Астана</option>
               <option value="РТ Семей">РТ Семей</option>
               <option value="ЛЧРК" selected>ЛЧРК</option>
-              <option value="ЧРК Шымкент" selected>ЛЧРК</option>
-              <option value="РТ Жібек жолы" selected>РТ Жибек жолы</option>
+              <option value="ЧРК Шымкент" selected>ЧРК Шымкент</option>
+              <option value="РТ Жібек жолы" selected>РТ Жібек жолы</option>
               <option value="МЧРК" selected>МЧРК</option>
               <option value="ЗЧРК" selected>ЗЧРК</option>
               <option value="РТ Ақтөбе үміттері"selected>РТ Ақтөбе үміттері</option>
@@ -223,6 +223,7 @@
                 <th>Пол</th>
                 <th>Дистанция</th>
                 <th>Результат (секунды)</th>
+                <th>Название</th>
                 <th>Дата</th>
                 <th>Бассейн</th>
                 <th>Занятое место</th>
@@ -310,6 +311,8 @@
         <td><select style="width:70px"><option value="25" ${row.pool_length==25?'selected':''}>25</option><option value="50" ${row.pool_length==50?'selected':''}>50</option></select></td>
         <td>${h(row.fina_points)}</td>
         <td>${h(row.rudolph_points)}</td>
+        <td><input value="${h(row.name_of_competition)}" style="width:140px" /></td>
+        <td><input value="${h(row.place_taken)}" style="width:70px" /></td>
         <td>
           <button class="btn btn-outline" data-action="save">Сохранить</button>
           <button class="btn btn-outline" data-action="delete">Удалить</button>
@@ -326,7 +329,9 @@
           event: inputs[3].value,
           result: inputs[4].value,
           date_of_competition: inputs[5].value,
-          pool_length: Number(inputs[6].value)
+          pool_length: Number(inputs[6].value),
+          name_of_competition: inputs[7].value,  
+          place_taken: inputs[8].value  
         };
         try {
           const res = await fetch(`{{ url_for('update_swimmer', swimmer_id=0) }}`.replace('0', row.id), {

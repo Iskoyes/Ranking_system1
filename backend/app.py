@@ -148,8 +148,10 @@ def list_swimmers():
                 "gender": s.gender,
                 "event": s.event,
                 "result": s.result,
+                "name_of_competition": s.name_of_competition,
                 "date_of_competition": s.date_of_competition.isoformat(),
                 "pool_length": s.pool_length,
+                "place_taken": s.place_taken,
                 "fina_points": s.fina_points or 0,
                 "rudolph_points": s.rudolph_points or 0,
             }
@@ -173,10 +175,14 @@ def update_swimmer(swimmer_id: int):
             s.event = normalize_event_name(payload["event"]) or payload["event"]
         if "result" in payload:
             s.result = float(time_to_seconds(payload["result"]))
+        if "name_of_competition" in payload:
+            s.name_of_competition = payload["name_of_competition"]
         if "date_of_competition" in payload:
             s.date_of_competition = datetime.strptime(payload["date_of_competition"], "%Y-%m-%d").date()
         if "pool_length" in payload:
             s.pool_length = int(payload["pool_length"])
+        if "place_taken" in payload:
+            s.place_taken = int(payload["place_taken"])
         # Recompute points if any relevant fields changed
         base_time = get_base_time(s.event, s.gender, s.pool_length)
         s.fina_points = int(calculate_fina_points(base_time, s.result)) if base_time else 0
@@ -215,8 +221,10 @@ def export_excel():
                 "Пол": 'Ж' if s.gender == 'F' else 'M',
                 "Дистанция": s.event,
                 "Время": s.result,
+                "Название соревнования": s.name_of_competition,
                 "Дата проведения соревнований": s.date_of_competition,
                 "Тип бассейна": s.pool_length,
+                "Занятое место": s.place_taken,
                 "FINA Points": s.fina_points or 0,
                 "Rudolph Points": s.rudolph_points or 0,
             })
