@@ -63,6 +63,25 @@
     #entries th, #entries td{border:1px solid #26456f; padding:10px 12px}
     #entries thead tr{background:#0e213e}
   </style>
+  <style>
+.scroll-container {
+  position: relative;
+  max-height: 300px; /* adjust to your table height */
+  overflow: auto;
+}
+
+/* Top scrollbar */
+.scrollbar-top {
+  overflow-x: auto;
+  overflow-y: hidden;
+  height: 16px;
+}
+
+.scrollbar-top div {
+  height: 1px;
+}
+</style>
+
 </head>
 <body>
   <div class="wrap">
@@ -215,7 +234,10 @@
         <div class="card-head">
           <h2>Последние 20 записей</h2>
         </div>
-        <div style="padding: 12px 22px 18px 22px; overflow:auto;">
+        <div class="scrollbar-top"><div></div></div>
+
+<!-- Scrollable table container -->
+      <div class="scroll-container" id="table-scroll" style="padding: 12px 22px 18px 22px;">
           <table id="entries" style="width:100%; border-collapse: collapse; font-size: 13px;">
             <thead>
               <tr style="text-align:left; color: var(--muted);">
@@ -244,13 +266,22 @@
     {% endif %}
 
   </div>
-  <script>
-  window.onload = function() {
-    const scrollContainer = document.querySelector('div[style*="overflow:auto"]');
-    if (scrollContainer) {
-      scrollContainer.scrollTop = 0; // move scroll to the top
+<script>
+  const topScroll = document.querySelector('.scrollbar-top');
+  const tableScroll = document.querySelector('#table-scroll');
+
+  function syncScroll(e1, e2) {
+    e1.scrollLeft = e2.scrollLeft;
+  }
+
+  // When content loads, match scrollbar width and sync scrolls
+  window.addEventListener('load', () => {
+    if (topScroll && tableScroll) {
+      topScroll.firstElementChild.style.width = tableScroll.scrollWidth + 'px';
+      topScroll.addEventListener('scroll', () => syncScroll(tableScroll, topScroll));
+      tableScroll.addEventListener('scroll', () => syncScroll(topScroll, tableScroll));
     }
-  };
+  });
 </script>
 
 </body>
