@@ -213,7 +213,7 @@
       <!-- Recent Entries -->
       <div class="card" style="margin-top: 12px;">
         <div class="card-head">
-          <h2>Посление 20 записей</h2>
+          <h2>Последние 20 записей</h2>
         </div>
         <div style="padding: 12px 22px 18px 22px; overflow:auto;">
           <table id="entries" style="width:100%; border-collapse: collapse; font-size: 13px;">
@@ -244,6 +244,15 @@
     {% endif %}
 
   </div>
+  <script>
+  window.onload = function() {
+    const scrollContainer = document.querySelector('div[style*="overflow:auto"]');
+    if (scrollContainer) {
+      scrollContainer.scrollTop = 0; // move scroll to the top
+    }
+  };
+</script>
+
 </body>
 {% if session.logged_in %}
 <script>
